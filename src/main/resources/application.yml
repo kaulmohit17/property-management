@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: property-management
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/local
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+
+
+logging:
+  level:
+    root: INFO
+    com.tsc.propertymanagement: debug
+    org.springframework: INFO
