@@ -1,7 +1,7 @@
 package com.tsc.propertymanagement.controller;
 
 import com.tsc.propertymanagement.dto.MaintenanceRecordDto;
-import com.tsc.propertymanagement.service.maintenanceRecordService.MaintenanceRecordService;
+import com.tsc.propertymanagement.service.MaintenanceRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,10 +63,10 @@ public class MaintenanceLogController {
      * @return no resource is returned except the HTTP Status
      */
     @PutMapping("/{maintenanceRecordId}")
-    public ResponseEntity<Void> updateEquipment(@RequestBody MaintenanceRecordDto maintenanceRecordDto, @PathVariable String maintenanceRecordId) {
-        maintenanceRecordService.updateMaintenanceRecord(maintenanceRecordDto, maintenanceRecordId);
+    public ResponseEntity<MaintenanceRecordDto> updateEquipment(@RequestBody MaintenanceRecordDto maintenanceRecordDto,
+                                                                 @PathVariable String maintenanceRecordId) {
         return status(HttpStatus.OK)
-                .build();
+                .body(maintenanceRecordService.updateMaintenanceRecord(maintenanceRecordDto, maintenanceRecordId));
     }
 
     /**

@@ -10,15 +10,15 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.item.data.MongoItemWriter;
+import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
 @EnableBatchProcessing
+@ConditionalOnProperty(name = "app.seed.enabled", havingValue = "true")
 public class BatchConfiguration {
 
     @Autowired
@@ -28,7 +28,10 @@ public class BatchConfiguration {
     private StepBuilderFactory stepBuilderFactory;
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private EquipmentSeedWriter equipmentSeedWriter;
+
+    @Autowired
+    private EquipmentQuantityImport equipmentQuantityImport;
 
     @Autowired
     private EquipmentInformationProcessor equipmentInformationProcessor;
@@ -43,22 +46,14 @@ public class BatchConfiguration {
     private ReleasedEquipmentProcessor releasedEquipmentProcessor;
 
     @Bean
-    public MongoItemWriter<Equipment> writer() {
-        MongoItemWriter<Equipment> writer = new MongoItemWriter<>();
-        writer.setTemplate(mongoTemplate);
-        writer.setCollection("equipment");
-        return writer;
-    }
-
-    @Bean
     public Job importEquipmentJob(JobCompletionNotificationListener listener) {
         return jobBuilderFactory.get("importEquipmentJob")
-                .incrementer(new RunIdIncrementer())
                 .listener(listener)
                 .start(equipmentInformationStep())
                 .next(equipmentKeyDetailStep())
                 .next(equipmentTechnicalDetailStep())
                 .next(releaseEquipmentStep())
+                .next(equipmentQuantityStep())
                 .build();
     }
 
@@ -67,7 +62,7 @@ public class BatchConfiguration {
         return stepBuilderFactory.get("equipmentInformationStep")
                 .<Equipment, Equipment>chunk(10)
                 .reader(equipmentInformationProcessor)
-                .writer(writer())
+                .writer(equipmentSeedWriter)
                 .build();
     }
 
@@ -76,7 +71,7 @@ public class BatchConfiguration {
         return stepBuilderFactory.get("equipmentKeyDetailStep")
                 .<Equipment, Equipment>chunk(10)
                 .reader(equipmentKeyDetailsProcessor)
-                .writer(writer())
+                .writer(equipmentSeedWriter)
                 .build();
     }
 
@@ -85,7 +80,7 @@ public class BatchConfiguration {
         return stepBuilderFactory.get("equipmentTechnicalDetailStep")
                 .<Equipment, Equipment>chunk(10)
                 .reader(equipmentTechnicalDetailsProcessor)
-                .writer(writer())
+                .writer(equipmentSeedWriter)
                 .build();
     }
 
@@ -94,8 +89,17 @@ public class BatchConfiguration {
         return stepBuilderFactory.get("releaseEquipmentStep")
                 .<Equipment, Equipment>chunk(10)
                 .reader(releasedEquipmentProcessor)
-                .writer(writer())
+                .writer(equipmentSeedWriter)
                 .build();
+    }
+
+    @Bean
+    public Step equipmentQuantityStep() {
+        return stepBuilderFactory.get("equipmentQuantityStep")
+                .tasklet((contribution, context) -> {
+                    equipmentQuantityImport.run();
+                    return RepeatStatus.FINISHED;
+                }).build();
     }
 
 }

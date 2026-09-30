@@ -1,6 +1,5 @@
-package com.tsc.propertymanagement.service.technicianservice;
+package com.tsc.propertymanagement.service;
 
-import com.tsc.propertymanagement.domain.Technician;
 import com.tsc.propertymanagement.dto.TechnicianDto;
 import com.tsc.propertymanagement.mapper.TechnicianMapper;
 import com.tsc.propertymanagement.repository.TechnicianRepository;

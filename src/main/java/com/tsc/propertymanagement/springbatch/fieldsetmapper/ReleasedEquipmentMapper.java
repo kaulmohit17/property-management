@@ -22,7 +22,7 @@ public class ReleasedEquipmentMapper implements FieldSetMapper<Equipment> {
                 .equipmentModel(fieldSet.readString("equipmentModel"))
                 .serialNumber(fieldSet.readString("serialNumber"))
                 .equipmentDetail(EquipmentDetail.builder()
-                        .equipmentRemarks("equipmentDetail".split(",")[0])
+                        .equipmentRemarks(fieldSet.readString("remarks"))
                         .equipmentStatus(EquipmentStatus.RELEASED)
                         .build())
                 .build();

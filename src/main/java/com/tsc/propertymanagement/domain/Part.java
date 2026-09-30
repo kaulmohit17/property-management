@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 @Builder
@@ -22,4 +23,5 @@ public class Part implements Serializable {
     private String supplierName;
     private double partCost;
     private Address supplierAddress;
+    private Set<String> equipmentTagNumbers;
 }

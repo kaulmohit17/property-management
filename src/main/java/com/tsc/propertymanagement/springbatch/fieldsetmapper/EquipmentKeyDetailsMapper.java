@@ -22,9 +22,9 @@ public class EquipmentKeyDetailsMapper implements FieldSetMapper<Equipment> {
                 .tagNumber(fieldSet.readString("tagNumber"))
                 .equipmentDetail(EquipmentDetail.builder()
                         .keyDetail(KeyDetail.builder()
-                                .primaryKey("equipmentDetail".split(",")[0])
+                                .primaryKey(fieldSet.readString("primaryKey"))
                                 .build())
-                        .equipmentRemarks("equipmentDetail".split(",")[1])
+                        .equipmentRemarks(fieldSet.readString("remarks"))
                         .build())
                 .build();
     }

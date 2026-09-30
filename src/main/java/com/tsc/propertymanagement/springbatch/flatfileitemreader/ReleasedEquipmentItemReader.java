@@ -31,8 +31,8 @@ public class ReleasedEquipmentItemReader {
     private LineTokenizer releasedEquipmentTokenizer() {
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
         lineTokenizer.setDelimiter(",");
-        lineTokenizer.setNames("equipmentType", "manufacturer", "tagNumber", "equipmentModel", "serialNumber", "equipmentDetail");
-        lineTokenizer.setIncludedFields(0, 1, 2, 3, 4);
+        lineTokenizer.setNames("equipmentType", "manufacturer", "tagNumber", "equipmentModel", "serialNumber", "remarks");
+        lineTokenizer.setIncludedFields(0, 1, 2, 3, 4, 5);
         return lineTokenizer;
     }
 }

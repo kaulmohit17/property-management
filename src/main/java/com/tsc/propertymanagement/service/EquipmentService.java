@@ -1,4 +1,4 @@
-package com.tsc.propertymanagement.service.equipmentService;
+package com.tsc.propertymanagement.service;
 
 import com.tsc.propertymanagement.domain.Equipment;
 import com.tsc.propertymanagement.dto.EquipmentDto;

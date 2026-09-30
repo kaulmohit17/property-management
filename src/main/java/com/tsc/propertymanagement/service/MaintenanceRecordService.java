@@ -1,4 +1,4 @@
-package com.tsc.propertymanagement.service.maintenanceRecordService;
+package com.tsc.propertymanagement.service;
 
 import com.tsc.propertymanagement.domain.Equipment;
 import com.tsc.propertymanagement.domain.MaintenanceRecord;
@@ -7,7 +7,7 @@ import com.tsc.propertymanagement.exception.ErrorCode;
 import com.tsc.propertymanagement.exception.ServiceException;
 import com.tsc.propertymanagement.mapper.MaintenanceRecordMapper;
 import com.tsc.propertymanagement.repository.MaintenanceRecordRepository;
-import com.tsc.propertymanagement.service.equipmentService.EquipmentService;
+import com.tsc.propertymanagement.service.EquipmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,12 +40,12 @@ public class MaintenanceRecordService {
         maintenanceRecordRepository.deleteById(maintenanceRecordId);
     }
 
-    public void updateMaintenanceRecord(MaintenanceRecordDto maintenanceRecordDto, String maintenanceRecordId) {
-        maintenanceRecordRepository.findById(maintenanceRecordId)
-                .ifPresent(maintenanceRecord -> {
-                    MaintenanceRecord forUpdate = maintenanceRecordMapper.toMaintenanceRecordForUpdate(maintenanceRecordDto, maintenanceRecord);
-                    maintenanceRecordRepository.save(forUpdate);
-                });
+    public MaintenanceRecordDto updateMaintenanceRecord(MaintenanceRecordDto maintenanceRecordDto, String maintenanceRecordId) {
+        MaintenanceRecord maintenanceRecord = maintenanceRecordRepository.findById(maintenanceRecordId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.MAINTENANCE_RECORD_NOT_FOUND));
+        MaintenanceRecord updatedRecord = maintenanceRecordMapper.toMaintenanceRecordForUpdate(
+                maintenanceRecordDto, maintenanceRecord);
+        return maintenanceRecordMapper.toMaintenanceRequestDto(maintenanceRecordRepository.save(updatedRecord));
     }
 
     public List<MaintenanceRecordDto> getMaintenanceRecordByEquipmentTagNumber(String equipmentTagNumber) {

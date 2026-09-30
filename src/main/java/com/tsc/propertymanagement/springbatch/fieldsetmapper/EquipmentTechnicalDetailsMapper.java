@@ -15,14 +15,12 @@ public class EquipmentTechnicalDetailsMapper implements FieldSetMapper<Equipment
     @Override
     public Equipment mapFieldSet(FieldSet fieldSet) throws BindException {
         return Equipment.builder()
-                .equipmentType(fieldSet.readString("equipmentType"))
-                .manufacturer(fieldSet.readString("manufacturer"))
-                .equipmentModel(fieldSet.readString("equipmentModel"))
                 .tagNumber(fieldSet.readString("tagNumber"))
                 .serialNumber(fieldSet.readString("serialNumber"))
                 .equipmentDetail(EquipmentDetail.builder()
-                        .frontTirePressure(fieldSet.readString("equipmentDetail").split(",")[0])
-                        .backTirePressure(fieldSet.readString("equipmentDetail").split(",")[1])
+                        .equipmentRemarks(fieldSet.readString("remarks"))
+                        .frontTirePressure(fieldSet.readString("frontTire"))
+                        .backTirePressure(fieldSet.readString("rearTire"))
                         .build())
                 .build();
     }

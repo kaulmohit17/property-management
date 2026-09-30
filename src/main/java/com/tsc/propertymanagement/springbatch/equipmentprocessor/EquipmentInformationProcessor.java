@@ -24,6 +24,9 @@ public class EquipmentInformationProcessor implements ItemReader<Equipment>, Ite
     @Override
     public Equipment read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         FieldSet fieldSet = fieldSetFlatFileItemReader.read();
+        if (fieldSet == null) {
+            return null;
+        }
         return equipmentInformationFieldSetMapper.mapFieldSet(fieldSet);
     }
 

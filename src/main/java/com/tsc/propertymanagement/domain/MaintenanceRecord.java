@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data@Builder
@@ -31,8 +30,8 @@ public class MaintenanceRecord implements Serializable {
     private LocalDate completionDate;
     @DBRef
     private Equipment equipment;
-    @Builder.Default
-    private List<Technician> technicians = new ArrayList<>(); // these are the techs who worked on the machine to complete the task
-    @Builder.Default
-    private List<Part> parts = new ArrayList<>();
+    @DBRef
+    private List<Part> parts;
+    @DBRef
+    private List<Technician> technicians;
 }

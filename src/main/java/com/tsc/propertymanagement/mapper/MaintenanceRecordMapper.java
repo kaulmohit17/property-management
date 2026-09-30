@@ -2,7 +2,6 @@ package com.tsc.propertymanagement.mapper;
 
 import com.tsc.propertymanagement.constants.enumtype.MaintenanceType;
 import com.tsc.propertymanagement.domain.MaintenanceRecord;
-import com.tsc.propertymanagement.domain.Technician;
 import com.tsc.propertymanagement.dto.MaintenanceRecordDto;
 import org.apache.logging.log4j.util.Strings;
 import org.mapstruct.Mapper;
@@ -11,11 +10,6 @@ import org.mapstruct.MappingTarget;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Mapper(componentModel = "spring")
 public interface MaintenanceRecordMapper {
 

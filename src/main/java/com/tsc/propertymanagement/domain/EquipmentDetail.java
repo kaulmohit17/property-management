@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Builder
@@ -22,7 +20,4 @@ public class EquipmentDetail implements Serializable {
     private String frontTirePressure;
     private String backTirePressure;
     private String equipmentLocation;
-    @Builder.Default
-    private List<Part> parts = new ArrayList<>();
-
 }

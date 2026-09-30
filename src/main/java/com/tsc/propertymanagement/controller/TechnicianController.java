@@ -1,7 +1,7 @@
 package com.tsc.propertymanagement.controller;
 
 import com.tsc.propertymanagement.dto.TechnicianDto;
-import com.tsc.propertymanagement.service.technicianservice.TechnicianService;
+import com.tsc.propertymanagement.service.TechnicianService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

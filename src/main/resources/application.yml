@@ -1,4 +1,7 @@
 spring:
+  batch:
+    job:
+      enabled: false
   application:
     name: property-management
   data:
@@ -13,6 +16,8 @@ management:
   endpoint:
     health:
       enabled: true
+      probes:
+        enabled: true
     info:
       enabled: true
 
@@ -22,3 +27,7 @@ logging:
     root: INFO
     com.tsc.propertymanagement: debug
     org.springframework: INFO
+
+app:
+  seed:
+    enabled: ${APP_SEED_ENABLED:false}
